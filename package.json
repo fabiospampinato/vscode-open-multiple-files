@@ -32,7 +32,8 @@
       "explorer/context": [
         {
           "command": "openMultipleFiles.open",
-          "group": "navigation"
+          "group": "navigation",
+          "when": "explorerResourceIsFolder"
         }
       ]
     }
