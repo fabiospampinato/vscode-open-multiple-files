@@ -1,4 +1,4 @@
-# VSC Open Multiple Files
+# Open Multiple Files
 
 <p align="center">
 	<img src="https://raw.githubusercontent.com/fabiospampinato/vscode-open-multiple-files/master/resources/logo-128x128.png" alt="Logo">
@@ -8,10 +8,10 @@ Open all files in a folder at once, optionally filtering by a glob.
 
 ## Install
 
-Run the following in the command palette:
+Follow the instructions in the [Marketplace](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-open-multiple-files), or run the following in the command palette:
 
 ```shell
-ext install vscode-open-multiple-files
+ext install fabiospampinato.vscode-open-multiple-files
 ```
 
 ## Usage
