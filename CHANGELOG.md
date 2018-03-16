@@ -1,3 +1,6 @@
+### Version 1.0.2
+- Updated readme
+
 ### Version 1.0.1
 - Showing the menu item only when right-clicking a folder
 
