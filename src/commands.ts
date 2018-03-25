@@ -22,9 +22,11 @@ async function open ( basePath ) {
     value: '**/*'
   });
 
+  let rootPath;
+
   if ( basePath ) {
 
-    const rootPath = Utils.folder.getRootPath ( basePath );
+    rootPath = Utils.folder.getRootPath ( basePath );
 
     if ( !rootPath ) return vscode.window.showErrorMessage ( 'Root path not found' );
 
@@ -40,11 +42,12 @@ async function open ( basePath ) {
 
   const excludeGlob = ( vscode.workspace.getConfiguration ().get ( 'files' ) as any ).exclude;
 
-  const findFiles = await vscode.workspace.findFiles ( includeGlob, excludeGlob, config.limit );
+  const findFiles = await vscode.workspace.findFiles ( includeGlob, excludeGlob, config.limit ),
+        rootFiles = findFiles.filter ( file => !rootPath || file.fsPath.startsWith ( rootPath ) );
 
-  if ( !findFiles.length ) return vscode.window.showInformationMessage ( `No files found with the glob: ${includeGlob}` );
+  if ( !rootFiles.length ) return vscode.window.showInformationMessage ( `No files found with the glob: ${includeGlob}` );
 
-  findFiles.forEach ( file => Utils.file.open ( file.fsPath ) );
+  rootFiles.forEach ( file => Utils.file.open ( file.fsPath ) );
 
 }
 
