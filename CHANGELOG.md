@@ -1,3 +1,6 @@
+### Version 1.0.3
+- Ensuring it works in workspaces with multiple roots having similar structures
+
 ### Version 1.0.2
 - Updated readme
 
