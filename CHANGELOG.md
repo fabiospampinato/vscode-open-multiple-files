@@ -1,3 +1,6 @@
+### Version 1.1.0
+- Sorting the files before opening them
+
 ### Version 1.0.3
 - Ensuring it works in workspaces with multiple roots having similar structures
 
