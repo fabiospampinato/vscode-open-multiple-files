@@ -47,7 +47,10 @@ async function open ( basePath ) {
 
   if ( !rootFiles.length ) return vscode.window.showInformationMessage ( `No files found with the glob: ${includeGlob}` );
 
-  rootFiles.forEach ( file => Utils.file.open ( file.fsPath ) );
+  const filesPaths = rootFiles.map ( file => file.fsPath ),
+        filesPathsSorted = _.sortBy ( filesPaths, [x => x.split ( path.sep ).length, _.identity] );
+
+  filesPathsSorted.forEach ( filePath => Utils.file.open ( filePath ) );
 
 }
 
