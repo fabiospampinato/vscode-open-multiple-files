@@ -6,6 +6,8 @@
 
 Open all files in a folder at once, optionally filtering by a glob.
 
+You can read more about the supported glob syntax [here](https://code.visualstudio.com/docs/extensionAPI/vscode-api#GlobPattern).
+
 ## Install
 
 Follow the instructions in the [Marketplace](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-open-multiple-files), or run the following in the command palette:
