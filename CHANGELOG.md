@@ -1,3 +1,8 @@
+### Version 1.1.1
+- Added support for exiting the quickpick
+- Fixed placeholder glob
+- Readme: added a link to the supported glob syntax
+
 ### Version 1.1.0
 - Sorting the files before opening them
 
