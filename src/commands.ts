@@ -22,6 +22,8 @@ async function open ( basePath ) {
     value: '**/*'
   });
 
+  if ( !includeGlob ) return;
+
   let rootPath;
 
   if ( basePath ) {
