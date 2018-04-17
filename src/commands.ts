@@ -18,7 +18,7 @@ async function open ( basePath ) {
   const config = Config.get ();
 
   let includeGlob = await vscode.window.showInputBox ({
-    placeHolder: 'Optional glob: *.{js|ts}',
+    placeHolder: 'Glob: *.{js,ts}',
     value: '**/*'
   });
 
