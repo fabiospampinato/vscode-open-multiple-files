@@ -1,3 +1,6 @@
+### Version 1.2.0
+- Added support for binary files
+
 ### Version 1.1.1
 - Added support for exiting the quickpick
 - Fixed placeholder glob
