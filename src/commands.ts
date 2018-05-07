@@ -2,7 +2,9 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
+import * as isBinaryCallback from 'isbinaryfile';
 import * as path from 'path';
+import * as pify from 'pify';
 import * as vscode from 'vscode';
 import Config from './config';
 import Utils from './utils';
@@ -49,10 +51,13 @@ async function open ( basePath ) {
 
   if ( !rootFiles.length ) return vscode.window.showInformationMessage ( `No files found with the glob: ${includeGlob}` );
 
-  const filesPaths = rootFiles.map ( file => file.fsPath ),
-        filesPathsSorted = _.sortBy ( filesPaths, [x => x.split ( path.sep ).length, _.identity] );
+  const isBinary = pify ( isBinaryCallback );
 
-  filesPathsSorted.forEach ( filePath => Utils.file.open ( filePath ) );
+  const filesPaths = rootFiles.map ( file => file.fsPath ),
+        filesPathsSorted = _.sortBy ( filesPaths, [x => x.split ( path.sep ).length, _.identity] ),
+        filesBinaryFlags = await Promise.all ( filesPathsSorted.map ( filePath => isBinary ( filePath ).catch ( () => false ) ) ) as any;
+
+  filesPathsSorted.forEach ( ( filePath, index ) => Utils.file.open ( filePath, !filesBinaryFlags[index] ) );
 
 }
 

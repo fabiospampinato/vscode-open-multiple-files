@@ -71,6 +71,7 @@
   ],
   "dependencies": {
     "absolute": "0.0.1",
+    "isbinaryfile": "^3.0.2",
     "lodash": "^4.17.4",
     "pify": "^3.0.0"
   },
