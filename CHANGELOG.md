@@ -1,3 +1,6 @@
+### Version 1.2.1
+- Always opening files as non-previews
+
 ### Version 1.2.0
 - Added support for binary files
 

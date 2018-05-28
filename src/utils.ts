@@ -42,7 +42,7 @@ const Utils = {
       if ( isTextDocument ) {
 
         return vscode.workspace.openTextDocument ( fileuri )
-                                .then ( doc => vscode.window.showTextDocument ( doc, { preview: false } ) );
+                               .then ( doc => vscode.window.showTextDocument ( doc, { preview: false } ) );
 
       } else {
 
