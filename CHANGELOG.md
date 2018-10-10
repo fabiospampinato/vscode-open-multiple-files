@@ -1,3 +1,6 @@
+### Version 1.2.2
+- Bundling with webpack
+
 ### Version 1.2.1
 - Always opening files as non-previews
 
