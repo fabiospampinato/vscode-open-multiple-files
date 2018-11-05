@@ -1,7 +1,7 @@
 # Open Multiple Files
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/fabiospampinato/vscode-open-multiple-files/master/resources/logo-128x128.png" alt="Logo">
+	<img src="https://raw.githubusercontent.com/fabiospampinato/vscode-open-multiple-files/master/resources/logo.png" width="128" alt="Logo">
 </p>
 
 Open all files in a folder at once, optionally filtering by a glob.
