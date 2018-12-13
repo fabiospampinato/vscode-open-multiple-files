@@ -3,14 +3,14 @@
 
 import * as vscode from 'vscode';
 
-interface IConfig {
+interface IMultipleLinesConfig {
   limit: number;
 }
 /* CONFIG */
 
 const Config = {
 
-  get ( extension = 'openMultipleFiles' ): IConfig {
+  get ( extension = 'openMultipleFiles' ): IMultipleLinesConfig {
 
     return vscode.workspace.getConfiguration ().get ( extension );
 

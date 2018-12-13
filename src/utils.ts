@@ -9,17 +9,13 @@ import * as pify from 'pify';
 import * as vscode from 'vscode';
 import * as Commands from './commands';
 
-interface ICommand {
-  command: string;
-  title: string;
-}
 /* UTILS */
 
 const Utils = {
 
   initCommands ( context: vscode.ExtensionContext ) {
 
-    const {commands}: { commands: ICommand[] } = vscode.extensions.getExtension ( 'fabiospampinato.vscode-open-multiple-files' ).packageJSON.contributes;
+    const {commands}: { commands: vscode.Command[] } = vscode.extensions.getExtension ( 'fabiospampinato.vscode-open-multiple-files' ).packageJSON.contributes;
 
     commands.forEach ( ({command, title}) => {
 
