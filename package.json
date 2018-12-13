@@ -78,8 +78,11 @@
     "pify": "^3.0.0"
   },
   "devDependencies": {
+    "@types/absolute": "0.0.29",
+    "@types/lodash": "^4.14.119",
+    "@types/pify": "^3.0.2",
     "ts-loader": "^5.2.1",
-    "typescript": "~2.4.1",
+    "typescript": "^3.2.2",
     "vscode": "^1.1.4",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2"
