@@ -38,7 +38,7 @@ async function open ( basePath ) {
 
       const relPath = basePath.substring ( rootPath.length + 1 );
 
-      includeGlob = path.join ( relPath, includeGlob );
+      includeGlob = path.join ( relPath, includeGlob ).replace ( /\\/g, '/' );
 
     }
 
