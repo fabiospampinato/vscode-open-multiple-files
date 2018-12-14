@@ -2,10 +2,9 @@
 /* IMPORT */
 
 import * as vscode from 'vscode';
+import { IMultipleLinesConfig } from './types';
 
-interface IMultipleLinesConfig {
-  limit: number;
-}
+
 /* CONFIG */
 
 const Config = {

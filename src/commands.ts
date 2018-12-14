@@ -8,21 +8,17 @@ import * as pify from 'pify';
 import * as vscode from 'vscode';
 import Config from './config';
 import Utils from './utils';
+import { IContextMenuPaths } from './types';
 
-interface IContextMenuPaths {
-  $mid: number;
-  fsPath: string;
-  external: string;
-  path: string;
-  scheme: string;
-}
 
 /* COMMANDS */
 
-// Anarchy starts here
-async function open ( basePath ) {
+async function open ( passedBasePath: IContextMenuPaths | undefined ) {
+  let basePath: string = '';
 
-  basePath = basePath && !_.isString ( basePath ) ? basePath.fsPath : basePath;
+  if (passedBasePath && !_.isString( passedBasePath )) {
+    basePath = passedBasePath.fsPath;
+  }
 
   if ( basePath && !await Utils.folder.is ( basePath ) ) return vscode.window.showErrorMessage ( 'The target must be a directory, not a file' );
 
