@@ -1,3 +1,6 @@
+### Version 1.2.5
+- Fixed globs normalization under Windows
+
 ### Version 1.2.4
 - Readme: using hi-res logo
 
