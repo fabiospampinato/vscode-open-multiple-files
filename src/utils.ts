@@ -64,7 +64,7 @@ const Utils = {
 
     },
 
-    getRootPath ( basePath? ): string {
+    getRootPath ( basePath?: string ): string {
 
       const {workspaceFolders} = vscode.workspace;
 
