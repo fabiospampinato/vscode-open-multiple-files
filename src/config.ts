@@ -2,7 +2,7 @@
 /* IMPORT */
 
 import * as vscode from 'vscode';
-import { IConfig } from './types';
+import {IConfig} from './types';
 
 
 /* CONFIG */
