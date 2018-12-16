@@ -1,13 +1,15 @@
 
-/* EXPORT */
-
-export interface IMultipleLinesConfig {
+interface IConfig {
   limit: number;
 }
 
-export interface IContextMenuPaths {
+interface IContextMenuPath {
   fsPath: string;
   external: string;
   path: string;
   scheme: string;
 }
+
+/* EXPORT */
+
+export {IConfig, IContextMenuPath};

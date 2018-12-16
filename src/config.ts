@@ -2,14 +2,14 @@
 /* IMPORT */
 
 import * as vscode from 'vscode';
-import { IMultipleLinesConfig } from './types';
+import { IConfig } from './types';
 
 
 /* CONFIG */
 
 const Config = {
 
-  get ( extension = 'openMultipleFiles' ): IMultipleLinesConfig {
+  get ( extension = 'openMultipleFiles' ): IConfig {
 
     return vscode.workspace.getConfiguration ().get ( extension );
 

@@ -8,12 +8,12 @@ import * as pify from 'pify';
 import * as vscode from 'vscode';
 import Config from './config';
 import Utils from './utils';
-import { IContextMenuPaths } from './types';
+import { IContextMenuPath } from './types';
 
 
 /* COMMANDS */
 
-async function open ( passedBasePath: IContextMenuPaths | undefined ) {
+async function open ( passedBasePath?: IContextMenuPath ) {
   let basePath: string = '';
 
   if (passedBasePath && !_.isString( passedBasePath )) {
@@ -24,7 +24,7 @@ async function open ( passedBasePath: IContextMenuPaths | undefined ) {
 
   const config = Config.get ();
 
-  let includeGlob: string = await vscode.window.showInputBox ({
+  let includeGlob: string | undefined = await vscode.window.showInputBox ({
     placeHolder: 'Glob: *.{js,ts}',
     value: '**/*'
   });
