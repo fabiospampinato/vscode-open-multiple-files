@@ -15,11 +15,11 @@ const Utils = {
 
   initCommands ( context: vscode.ExtensionContext ) {
 
-    const {commands} = vscode.extensions.getExtension ( 'fabiospampinato.vscode-open-multiple-files' ).packageJSON.contributes;
+    const {commands}: { commands: vscode.Command[] } = vscode.extensions.getExtension ( 'fabiospampinato.vscode-open-multiple-files' ).packageJSON.contributes;
 
-    commands.forEach ( ({ command, title }) => {
+    commands.forEach ( ({command, title}) => {
 
-      const commandName = _.last ( command.split ( '.' ) ) as string,
+      const commandName: string = _.last ( command.split ( '.' ) ),
             handler = Commands[commandName],
             disposable = vscode.commands.registerCommand ( command, handler );
 
@@ -33,7 +33,7 @@ const Utils = {
 
   file: {
 
-    open ( filePath, isTextDocument = true ) {
+    open ( filePath: string, isTextDocument = true ) {
 
       filePath = path.normalize ( filePath );
 
@@ -56,7 +56,7 @@ const Utils = {
 
   folder: {
 
-    async is ( folderpath ) {
+    async is ( folderpath: string ): Promise<boolean> {
 
       const stats = await pify ( fs.lstat )( folderpath );
 
@@ -64,20 +64,20 @@ const Utils = {
 
     },
 
-    getRootPath ( basePath? ) {
+    getRootPath ( basePath?: string ): string {
 
       const {workspaceFolders} = vscode.workspace;
 
       if ( !workspaceFolders ) return;
 
-      const firstRootPath = workspaceFolders[0].uri.fsPath;
+      const firstRootPath: string = workspaceFolders[0].uri.fsPath;
 
       if ( !basePath || !absolute ( basePath ) ) return firstRootPath;
 
-      const rootPaths = workspaceFolders.map ( folder => folder.uri.fsPath ),
-            sortedRootPaths = _.sortBy ( rootPaths, [path => path.length] ).reverse (); // In order to get the closest root
+      const rootPaths: string[] = workspaceFolders.map ( folder => folder.uri.fsPath ),
+            sortedRootPaths: string[] = _.sortBy ( rootPaths, [path => path.length] ).reverse (); // In order to get the closest root
 
-      return sortedRootPaths.find ( rootPath => basePath.startsWith ( rootPath ) );
+      return sortedRootPaths.find ( (rootPath: string) => basePath.startsWith ( rootPath ) );
 
     },
 
