@@ -12,7 +12,7 @@ import Utils from './utils';
 
 /* COMMANDS */
 
-async function open ( contextMenuObj?: IContextMenuObj ) {
+async function open ( contextMenuObj?: IContextMenuObj | string ) {
 
   let basePath: string = '';
 
@@ -26,10 +26,16 @@ async function open ( contextMenuObj?: IContextMenuObj ) {
 
   const config = Config.get ();
 
-  let includeGlob: string | undefined = await vscode.window.showInputBox ({
-    placeHolder: 'Glob: *.{js,ts}',
-    value: '**/*'
-  });
+  let includeGlob: string | undefined = _.isString ( contextMenuObj ) ? contextMenuObj : undefined;
+
+  if ( !includeGlob ) {
+
+    includeGlob = await vscode.window.showInputBox ({
+      placeHolder: 'Glob: *.{js,ts}',
+      value: '**/*'
+    });
+
+  }
 
   if ( !includeGlob ) return;
 
