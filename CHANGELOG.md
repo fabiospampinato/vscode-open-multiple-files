@@ -1,3 +1,6 @@
+### Version 1.3.0
+- Added support for accepting a string argument to the “openMultipleFiles.open” command
+
 ### Version 1.2.5
 - Fixed globs normalization under Windows
 
