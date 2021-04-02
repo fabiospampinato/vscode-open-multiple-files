@@ -57,7 +57,7 @@ async function open ( contextMenuObj?: IContextMenuObj | string ) {
 
   }
 
-  const excludeGlob: vscode.GlobPattern = ( vscode.workspace.getConfiguration ().get ( 'files' ) as any).exclude;
+  const excludeGlob = config.exclude;
 
   const findFiles = await vscode.workspace.findFiles ( includeGlob, excludeGlob, config.limit ),
         rootFiles = findFiles.filter ( file => !rootPath || file.fsPath.startsWith ( rootPath ) );

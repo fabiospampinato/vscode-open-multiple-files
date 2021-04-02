@@ -15,6 +15,10 @@
       "type": "object",
       "title": "Open Multiple Files - Configuration",
       "properties": {
+        "openMultipleFiles.exclude": {
+          "type": "string",
+          "description": "A glob of files to exclude"
+        },
         "openMultipleFiles.limit": {
           "type": "number",
           "description": "Max number of files to open",

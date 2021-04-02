@@ -2,6 +2,7 @@
 /* TYPES */
 
 interface IConfig {
+  exclude: string,
   limit: number;
 }
 

@@ -30,6 +30,7 @@ You can also right click a folder in the explorer and only search in that folder
 
 ```js
 {
+  "openMultipleFiles.exclude": "", // A glob of files to exclude
   "openMultipleFiles.limit": 100 // Max number of files to open
 }
 ```
