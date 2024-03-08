@@ -1,3 +1,8 @@
+### Version 2.0.0
+- Rewitten: more modern code, no third-party dependencies, 99% smaller bundle
+- New setting: "openMultipleFiles.ignore", for specifying .gitignore-like files to use
+- Asking for confirmation when more than than "openMultipleFiles.limit" files have been found
+
 ### Version 1.4.0
 - Added a "openMultipleFiles.exclude" setting
 
