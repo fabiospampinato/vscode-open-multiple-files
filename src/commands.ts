@@ -1,78 +1,42 @@
 
 /* IMPORT */
 
-import * as _ from 'lodash';
-import * as isBinaryCallback from 'isbinaryfile';
-import * as path from 'path';
-import * as pify from 'pify';
-import * as vscode from 'vscode';
-import Config from './config';
-import {IContextMenuObj} from './types';
-import Utils from './utils';
+import path from 'node:path';
+import vscode from 'vscode';
+import {getConfig, getProjectRootPath} from 'vscode-extras';
+import {getFilesByGlobs, getFilesByNames, getFilesExclude, getIgnoreFromFilePaths, isFolder, isArray, isNumber, isString, openFile} from './utils';
 
-/* COMMANDS */
+/* MAIN */
 
-async function open ( contextMenuObj?: IContextMenuObj | string ) {
+const open = async ( target?: vscode.Uri | string ): Promise<void> => {
 
-  let basePath: string = '';
+  const rootPath = ( target instanceof vscode.Uri ) ? target.fsPath : getProjectRootPath ();
 
-  if ( contextMenuObj && !_.isString ( contextMenuObj ) ) {
+  if ( !rootPath || !isFolder ( rootPath ) ) return void vscode.window.showErrorMessage ( 'Target directory not found' );
 
-    basePath = contextMenuObj.fsPath;
+  const config = getConfig ( 'openMultipleFiles' );
+  const exclude = isArray ( config?.exclude ) ? config.exclude : getFilesExclude ();
+  const ignore = isArray ( config?.ignore ) ? config.ignore : [];
+  const limit = isNumber ( config?.limit ) ? config.limit : 100;
+  const include = isString ( target ) ? target : await vscode.window.showInputBox ({ placeHolder: 'Glob: **/*.{js,ts}', value: '**/*' });
 
-  }
+  if ( !include ) return;
 
-  if ( basePath && !await Utils.folder.is ( basePath ) ) return vscode.window.showErrorMessage ( 'The target must be a directory, not a file' );
+  const filesTarget = await getFilesByGlobs ( rootPath, include, exclude );
+  const filesIgnore = await getFilesByNames ( rootPath, ignore );
 
-  const config = Config.get ();
+  const isIgnored = getIgnoreFromFilePaths ( filesIgnore );
+  const filesTargetIgnored = filesTarget.filter ( filePath => !isIgnored ( filePath ) );
 
-  let includeGlob: string | undefined = _.isString ( contextMenuObj ) ? contextMenuObj : undefined;
+  if ( !filesTargetIgnored.length ) return void vscode.window.showInformationMessage ( `No files found with the glob: ${include}` );
 
-  if ( !includeGlob ) {
+  if ( filesTargetIgnored.length > limit && ( await vscode.window.showInformationMessage ( `Found ${filesTargetIgnored.length} files, are you sure you want to open them all?`, 'Yes', 'No' ) ) !== 'Yes' ) return;
 
-    includeGlob = await vscode.window.showInputBox ({
-      placeHolder: 'Glob: *.{js,ts}',
-      value: '**/*'
-    });
+  const filesTargetSorted = [...filesTargetIgnored].sort ().sort ( ( a, b ) => a.split ( path.sep ).length - b.split ( path.sep ).length );
 
-  }
+  filesTargetSorted.forEach ( openFile );
 
-  if ( !includeGlob ) return;
-
-  let rootPath: string;
-
-  if ( basePath ) {
-
-    rootPath = Utils.folder.getRootPath ( basePath );
-
-    if ( !rootPath ) return vscode.window.showErrorMessage ( 'Root path not found' );
-
-    if ( basePath !== rootPath ) {
-
-      const relPath: string = basePath.substring ( rootPath.length + 1 );
-
-      includeGlob = path.join ( relPath, includeGlob ).replace ( /\\/g, '/' );
-
-    }
-
-  }
-
-  const excludeGlob = config.exclude;
-
-  const findFiles = await vscode.workspace.findFiles ( includeGlob, excludeGlob, config.limit ),
-        rootFiles = findFiles.filter ( file => !rootPath || file.fsPath.startsWith ( rootPath ) );
-
-  if ( !rootFiles.length ) return vscode.window.showInformationMessage ( `No files found with the glob: ${includeGlob}` );
-
-  const isBinary = pify ( isBinaryCallback );
-
-  const filesPaths: string[] = rootFiles.map ( file => file.fsPath ),
-        filesPathsSorted: string[] = _.sortBy ( filesPaths, [x => x.split ( path.sep ).length, _.identity] ),
-        filesBinaryFlags = await Promise.all ( filesPathsSorted.map ( filePath => isBinary ( filePath ).catch ( () => false ) ) ) as any;
-
-  filesPathsSorted.forEach ( ( filePath, index ) => Utils.file.open ( filePath, !filesBinaryFlags[index] ) );
-
-}
+};
 
 /* EXPORT */
 

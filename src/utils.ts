@@ -1,90 +1,127 @@
 
 /* IMPORT */
 
-import * as _ from 'lodash';
-import * as absolute from 'absolute';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as pify from 'pify';
-import * as vscode from 'vscode';
-import * as Commands from './commands';
+import fastIgnore from 'fast-ignore';
+import fs from 'node:fs';
+import path from 'node:path';
+import readdir from 'tiny-readdir-glob';
+import vscode from 'vscode';
 
-/* UTILS */
+/* MAIN */
 
-const Utils = {
+//TODO: Maybe promote the "ignore function generation" stuff to a standalone package, as it could be broadly useful
 
-  initCommands ( context: vscode.ExtensionContext ) {
+const getFilesByGlobs = async ( rootPath: string, includeGlob: string | string[], excludeGlob?: string | string[] ): Promise<string[]> => {
 
-    const {commands}: { commands: vscode.Command[] } = vscode.extensions.getExtension ( 'fabiospampinato.vscode-open-multiple-files' ).packageJSON.contributes;
+  const {files} = await readdir ( includeGlob, {
+    cwd: rootPath,
+    ignore: excludeGlob,
+    followSymlinks: false
+  });
 
-    commands.forEach ( ({command, title}) => {
+  return files;
 
-      const commandName: string = _.last ( command.split ( '.' ) ),
-            handler = Commands[commandName],
-            disposable = vscode.commands.registerCommand ( command, handler );
+};
 
-      context.subscriptions.push ( disposable );
+const getFilesByNames = async ( rootPath: string, fileNames: string[] ): Promise<string[]> => {
 
-    });
+  if ( !fileNames.length ) return [];
 
-    return Commands;
+  const {files} = await readdir ( `**/${fileNames}`, {
+    cwd: rootPath,
+    followSymlinks: false
+  });
 
-  },
+  return files;
 
-  file: {
+};
 
-    open ( filePath: string, isTextDocument = true ) {
+const getFilesExclude = (): string[] => {
 
-      filePath = path.normalize ( filePath );
+  const excludes = vscode.workspace.getConfiguration ().get ( 'files.exclude' );
 
-      const fileuri = vscode.Uri.file ( filePath );
+  if ( !isObject ( excludes ) ) return [];
 
-      if ( isTextDocument ) {
+  const globs = Object.entries ( excludes ).filter ( ([ _, enabled ]) => enabled ).map ( ([ glob ]) => glob );
 
-        return vscode.workspace.openTextDocument ( fileuri )
-                               .then ( doc => vscode.window.showTextDocument ( doc, { preview: false } ) );
+  return globs;
 
-      } else {
+};
 
-        return vscode.commands.executeCommand ( 'vscode.open', fileuri );
+const getIgnoreFromFilePath = ( filePath: string ): (( filePath: string ) => boolean) => {
 
-      }
+  const fileContent = fs.readFileSync ( filePath, 'utf8' );
+  const folderPath = path.dirname ( filePath );
+  const ignore = fastIgnore ( fileContent );
 
-    }
+  return ( filePath: string ): boolean => {
 
-  },
+    return ignore ( path.relative ( folderPath, filePath ) );
 
-  folder: {
+  };
 
-    async is ( folderpath: string ): Promise<boolean> {
+};
 
-      const stats = await pify ( fs.lstat )( folderpath );
+const getIgnoreFromFilePaths = ( filePaths: string[] ): (( filePath: string ) => boolean) => {
 
-      return stats.isDirectory ();
+  const ignores = filePaths.map ( getIgnoreFromFilePath );
 
-    },
+  if ( !ignores.length ) return () => false;
 
-    getRootPath ( basePath?: string ): string {
+  return ( filePath: string ): boolean => {
 
-      const {workspaceFolders} = vscode.workspace;
+    return ignores.some ( ignore => ignore ( filePath ) );
 
-      if ( !workspaceFolders ) return;
+  };
 
-      const firstRootPath: string = workspaceFolders[0].uri.fsPath;
+};
 
-      if ( !basePath || !absolute ( basePath ) ) return firstRootPath;
+const isArray = ( value: unknown ): value is any[] => {
 
-      const rootPaths: string[] = workspaceFolders.map ( folder => folder.uri.fsPath ),
-            sortedRootPaths: string[] = _.sortBy ( rootPaths, [path => path.length] ).reverse (); // In order to get the closest root
+  return Array.isArray ( value );
 
-      return sortedRootPaths.find ( (rootPath: string) => basePath.startsWith ( rootPath ) );
+};
 
-    },
+const isFolder = ( folderPath: string ): boolean => {
+
+  try {
+
+    return fs.statSync ( folderPath ).isDirectory ();
+
+  } catch {
+
+    return false;
 
   }
 
 };
 
+const isNumber = ( value: unknown ): value is number => {
+
+  return typeof value === 'number';
+
+};
+
+const isObject = ( value: unknown ): value is Record<string, unknown> => {
+
+  return typeof value === 'object' && value !== null;
+
+};
+
+const isString = ( value: unknown ): value is string => {
+
+  return typeof value === 'string';
+
+};
+
+const openFile = ( filePath: string ): void => { //TODO: Maybe move this to "vscode-extras"
+
+  const uri = vscode.Uri.file ( filePath );
+
+  vscode.commands.executeCommand ( 'vscode.open', uri );
+
+};
+
 /* EXPORT */
 
-export default Utils;
+export {getFilesByGlobs, getFilesByNames, getFilesExclude, getIgnoreFromFilePath, getIgnoreFromFilePaths, isArray, isFolder, isNumber, isObject, isString, openFile};

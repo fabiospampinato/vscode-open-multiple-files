@@ -6,7 +6,7 @@
 
 Open all files in a folder at once, optionally filtering by a glob.
 
-You can read more about the supported glob syntax [here](https://code.visualstudio.com/docs/extensionAPI/vscode-api#GlobPattern).
+You can read more about the supported glob syntax [here](https://github.com/fabiospampinato/zeptomatch).
 
 ## Install
 
@@ -21,7 +21,7 @@ ext install fabiospampinato.vscode-open-multiple-files
 It adds 1 command to the command palette:
 
 ```js
-Open Multiple Files // Open all files at once, optionally filtering by a glob
+'Open Multiple Files' // Open all files at once, optionally filtering by a glob
 ```
 
 You can also right click a folder in the explorer and only search in that folder.
@@ -30,20 +30,11 @@ You can also right click a folder in the explorer and only search in that folder
 
 ```js
 {
-  "openMultipleFiles.exclude": "", // A glob of files to exclude
+  "openMultipleFiles.exclude": null, // An array of globs to exclude, unless specificed it uses the "files.exclude" setting
+  "openMultipleFiles.ignore": [".gitignore"], // An array of names for .gitignore-like files to use
   "openMultipleFiles.limit": 100 // Max number of files to open
 }
 ```
-
-## Demo
-
-![Demo](resources/demo.gif)
-
-## Contributing
-
-If you found a problem, or have a feature request, please open an [issue](https://github.com/fabiospampinato/vscode-open-multiple-files/issues) about it.
-
-If you want to make a pull request you can debug the extension using [Debug Launcher](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-debug-launcher).
 
 ## License
 

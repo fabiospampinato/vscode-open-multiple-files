@@ -1,6 +1,4 @@
 ### Version 1.4.0
-- Update .github/FUNDING.yml
-- Deleted repo-level github funding.yml
 - Added a "openMultipleFiles.exclude" setting
 
 ### Version 1.3.0
