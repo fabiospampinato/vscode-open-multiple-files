@@ -1,3 +1,7 @@
+### Version 2.0.1
+- Minor internal improvements
+- Ensuring files are opened in permanent tabs
+
 ### Version 2.0.0
 - Rewitten: more modern code, no third-party dependencies, 99% smaller bundle
 - New setting: "openMultipleFiles.ignore", for specifying .gitignore-like files to use
