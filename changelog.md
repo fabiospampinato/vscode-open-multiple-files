@@ -1,3 +1,6 @@
+### Version 2.0.2
+- Simplified icon
+
 ### Version 2.0.1
 - Minor internal improvements
 - Ensuring files are opened in permanent tabs
