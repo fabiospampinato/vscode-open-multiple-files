@@ -6,6 +6,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import readdir from 'tiny-readdir-glob';
 import vscode from 'vscode';
+import {getConfig} from 'vscode-extras';
+import type {Options} from './types';
 
 /* MAIN */
 
@@ -76,6 +78,17 @@ const getIgnoreFromFilePaths = ( filePaths: string[] ): (( filePath: string ) =>
 
 };
 
+const getOptions = (): Options => {
+
+  const config = getConfig ( 'openMultipleFiles' );
+  const exclude = isArray ( config?.exclude ) && config.exclude.every ( isString ) ? config.exclude : getFilesExclude ();
+  const ignore = isArray ( config?.ignore ) && config.ignore.every ( isString ) ? config.ignore : [];
+  const limit = isNumber ( config?.limit ) ? config.limit : 100;
+
+  return { exclude, ignore, limit };
+
+};
+
 const isArray = ( value: unknown ): value is any[] => {
 
   return Array.isArray ( value );
@@ -114,14 +127,6 @@ const isString = ( value: unknown ): value is string => {
 
 };
 
-const openFile = ( filePath: string ): void => { //TODO: Maybe move this to "vscode-extras"
-
-  const uri = vscode.Uri.file ( filePath );
-
-  vscode.commands.executeCommand ( 'vscode.open', uri );
-
-};
-
 /* EXPORT */
 
-export {getFilesByGlobs, getFilesByNames, getFilesExclude, getIgnoreFromFilePath, getIgnoreFromFilePaths, isArray, isFolder, isNumber, isObject, isString, openFile};
+export {getFilesByGlobs, getFilesByNames, getFilesExclude, getIgnoreFromFilePath, getIgnoreFromFilePaths, getOptions, isArray, isFolder, isNumber, isObject, isString};
