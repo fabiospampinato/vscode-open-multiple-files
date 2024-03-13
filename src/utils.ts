@@ -82,7 +82,7 @@ const getOptions = (): Options => {
 
   const config = getConfig ( 'openMultipleFiles' );
   const exclude = isArray ( config?.exclude ) && config.exclude.every ( isString ) ? config.exclude : getFilesExclude ();
-  const ignore = isArray ( config?.ignore ) && config.ignore.every ( isString ) ? config.ignore : [];
+  const ignore = isArray ( config?.ignore ) && config.ignore.every ( isString ) ? config.ignore : ['.gitignore'];
   const limit = isNumber ( config?.limit ) ? config.limit : 100;
 
   return { exclude, ignore, limit };
