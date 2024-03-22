@@ -80,8 +80,7 @@
     "files"
   ],
   "dependencies": {
-    "fast-ignore": "^1.1.1",
-    "tiny-readdir-glob": "^1.2.1",
+    "tiny-readdir-glob-gitignore": "^1.0.0",
     "vscode-extras": "^1.6.0"
   },
   "devDependencies": {
