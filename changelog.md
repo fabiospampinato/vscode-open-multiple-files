@@ -1,3 +1,7 @@
+### Version 2.0.3
+- Ensuring ".gitignore" is used as the default value for the "ignore" setting
+- Optimized handling of .gitignore-like files, finding files faster
+
 ### Version 2.0.2
 - Simplified icon
 
