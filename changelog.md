@@ -1,3 +1,6 @@
+### Version 2.0.4
+- Ensuring .gitignore-like files found between the root and the actual search roots are not considered, so that ignored folders can be still directly searched into
+
 ### Version 2.0.3
 - Ensuring ".gitignore" is used as the default value for the "ignore" setting
 - Optimized handling of .gitignore-like files, finding files faster
