@@ -80,7 +80,7 @@
     "files"
   ],
   "dependencies": {
-    "tiny-readdir-glob-gitignore": "^1.0.0",
+    "tiny-readdir-glob-gitignore": "^1.0.2",
     "vscode-extras": "^1.6.0"
   },
   "devDependencies": {

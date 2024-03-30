@@ -18,6 +18,7 @@ const getFiles = async ( rootPath: string, includeGlob: string | string[], exclu
     ignore: excludeGlob,
     ignoreFiles: ignoreNames,
     ignoreFilesFindAbove: false,
+    ignoreFilesFindBetween: false,
     followSymlinks: false
   });
 
