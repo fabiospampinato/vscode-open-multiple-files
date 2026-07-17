@@ -30,7 +30,7 @@ You can also right click a folder in the explorer and only search in that folder
 
 ```js
 {
-  "openMultipleFiles.exclude": null, // An array of globs to exclude, unless specificed it uses the "files.exclude" setting
+  "openMultipleFiles.exclude": null, // An array of globs to exclude, unless specified it uses the "files.exclude" setting
   "openMultipleFiles.ignore": [".gitignore"], // An array of names for .gitignore-like files to use
   "openMultipleFiles.limit": 100 // Max number of files to open
 }
